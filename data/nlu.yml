@@ -99,9 +99,18 @@ nlu:
     - what's tomorrow?
     - what's the date today?
     - What's 9 AM tomorrow?
-- intent: enter_data
+- intent: book_a_ride
   examples: |
-    - [tomorrow at eight](time)
-    - [2024-09-17T08:00:00.000-07:00](time)
-    - 1
-    - 2
+    - book a ride
+    - find a ride
+    - I need a ride to work
+    - I want to ride from [271 Nguyen Van Linh, Vinh Trung, Hai Chau, Da Nang](location) to [45 Le Duan, Phuong Phuoc Ninh, Hai Chau, Da Nang](location) at [tomorrow](time)
+    - [271 Nguyen Van Linh, Vinh Trung, Hai Chau, Da Nang] (location)
+    - [15 Nguyen Thi Minh Khai, Ben Nghe, Quan 1, Ho Chi Minh](location)
+    - [45 Le Duan, Phuong Phuoc Ninh, Hai Chau, Da Nang] (location)
+    - [271 Nguyen Van Linh, Vinh Trung, Hai Chau, Da Nang, Vietnam] (location)
+    - [271/7 Nguyen Van Linh, Vinh Trung, Hai Chau, Da Nang, Vietnam] (location)
+
+- regex: location
+  examples: |
+    - \d{1,4}(?:\/\d{1,4})?\s[A-Za-z\s]+(?:,\s[A-Za-z\s]+){1,4}

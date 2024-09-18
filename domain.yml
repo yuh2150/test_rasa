@@ -9,15 +9,41 @@ intents:
   - mood_unhappy
   - bot_challenge
   - ask_time
+  - book_a_ride
 entities:
   - time
   - number
+  - phone-number
+  - location
 slots:
   time:
     type: any
     mappings:
     - type: from_entity
       entity: time
+  pick_up_location:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: location
+      role : from
+  destination_location:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: location
+      role : to
+  pick_up_time:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: time
+forms:
+  book_ride_form:
+    required_slots:
+    - pick_up_location
+    - destination_location
+    - pick_up_time
 responses:
   utter_greet:
   - text: "Hey! How are you?"

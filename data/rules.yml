@@ -11,3 +11,9 @@ rules:
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
+- rule: activate booking form
+  steps:
+  - intent: book_a_ride
+  - action: book_ride_form
+  - active_loop: book_ride_form
+  - active_loop: null
