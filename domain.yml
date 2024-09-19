@@ -1,38 +1,63 @@
-version: "3.1"
-
+version: '3.1'
 intents:
-  - greet
-  - goodbye
-  - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
-  - ask_time
-  - book_a_ride
+- affirm
+- ask_time
+- book_a_ride
+- bot_challenge
+- deny
+- goodbye
+- greet
+- mood_great
+- mood_unhappy
 entities:
-  - time
-  - number
-  - phone-number
-  - location
+- quoteId
+- time
+- number
+- location
+- name
+- mood
+- quoteId_value
+- phone-number
 slots:
-  time:
+  shown_privacy:
+    type: text
+    mappings:
+    - type: custom
+  quoteId:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: quoteId
+  quotes:
+    type: text
+    mappings:
+    - type: custom
+  person_name:
     type: any
     mappings:
     - type: from_entity
-      entity: time
+      entity: name
+  number_contact:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: phone-number
   pick_up_location:
     type: any
     mappings:
     - type: from_entity
       entity: location
-      role : from
+      role: from
+    - type: from_entity
+      entity: location
   destination_location:
     type: any
     mappings:
     - type: from_entity
       entity: location
-      role : to
+      role: to
+    - type: from_entity
+      entity: location
   pick_up_time:
     type: any
     mappings:
@@ -41,35 +66,53 @@ slots:
 forms:
   book_ride_form:
     required_slots:
+    - person_name
+    - number_contact
     - pick_up_location
     - destination_location
-    - pick_up_time
+actions:
+- action_greet_user
+- action_submit_book_ride_form_to_get_quotes
+- action_display_select_quotes
+- utter_bye
+- utter_ask_continue_booking
+- utter_what_help
+- utter_moreinformation
+- action_current_time
+- utter_awesome
+- utter_anything_else
+- utter_ask_feedback
+- utter_ask_pick_up_location
+- utter_thumbsup
+- action_tag_feedback
+- action_set_faq_slot
+- action_explain_book_ride_form
+- utter_chitchat
+- utter_out_of_scope
+- action_geocoding
+- action_perform_booking_ride
 responses:
   utter_greet:
-  - text: "Hey! How are you?"
-
+  - text: Hey! How are you?
   utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
+  - text: 'Here is something to cheer you up:'
+    image: https://i.imgur.com/nGF1K8f.jpg
   utter_did_that_help:
-  - text: "Did that help you?"
-
+  - text: Did that help you?
   utter_happy:
-  - text: "Great, carry on!"
-
+  - text: Great, carry on!
   utter_goodbye:
-  - text: "Bye"
-
+  - text: Bye
   utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
-
+  - text: I am a bot, powered by Rasa.
   utter_time:
-  - text: "The time is {time} "
-
+  - text: 'The time is {time} '
   utter_default:
-  - text: "I'm sorry, I didn't understand that. Can you please try again?"
-
+  - text: I'm sorry, I didn't understand that. Can you please try again?
+  utter_invalid_pick_up_location:
+    - text: "That doesn't seem like a valid pickup location. Please provide the correct address."
+  utter_invalid_destination_location:
+    - text: "That doesn't seem like a valid destination location. Please provide the correct address." 
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

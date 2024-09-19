@@ -1,5 +1,4 @@
 version: "3.1"
-
 nlu:
 - intent: greet
   examples: |
@@ -16,7 +15,6 @@ nlu:
     - goodmorning
     - goodevening
     - good afternoon
-
 - intent: goodbye
   examples: |
     - cu
@@ -29,7 +27,6 @@ nlu:
     - see you around
     - bye bye
     - see you later
-
 - intent: affirm
   examples: |
     - yes
@@ -38,7 +35,6 @@ nlu:
     - of course
     - that sounds good
     - correct
-
 - intent: deny
   examples: |
     - no
@@ -48,7 +44,6 @@ nlu:
     - don't like that
     - no way
     - not really
-
 - intent: mood_great
   examples: |
     - perfect
@@ -65,7 +60,6 @@ nlu:
     - so so perfect
     - so good
     - so perfect
-
 - intent: mood_unhappy
   examples: |
     - my day was horrible
@@ -82,7 +76,6 @@ nlu:
     - extremly sad
     - so saad
     - so sad
-
 - intent: bot_challenge
   examples: |
     - are you a bot?
@@ -94,7 +87,7 @@ nlu:
     - what time is it?
     - what is the current time?
     - what's the time?
-    - what time is it right now ? 
+    - what time is it right now ?
     - what day is it today?
     - what's tomorrow?
     - what's the date today?
@@ -104,13 +97,10 @@ nlu:
     - book a ride
     - find a ride
     - I need a ride to work
-    - I want to ride from [271 Nguyen Van Linh, Vinh Trung, Hai Chau, Da Nang](location) to [45 Le Duan, Phuong Phuoc Ninh, Hai Chau, Da Nang](location) at [tomorrow](time)
+    - I want to ride from [271 Nguyen Van Linh, Vinh Trung, Hai Chau, Da Nang]{"entity": "location", "role": "from"} to [45 Le Duan, Phuong Phuoc Ninh, Hai Chau, Da Nang]{"entity": "location", "role": "to"} at tomorrow
     - [271 Nguyen Van Linh, Vinh Trung, Hai Chau, Da Nang] (location)
-    - [15 Nguyen Thi Minh Khai, Ben Nghe, Quan 1, Ho Chi Minh](location)
-    - [45 Le Duan, Phuong Phuoc Ninh, Hai Chau, Da Nang] (location)
-    - [271 Nguyen Van Linh, Vinh Trung, Hai Chau, Da Nang, Vietnam] (location)
-    - [271/7 Nguyen Van Linh, Vinh Trung, Hai Chau, Da Nang, Vietnam] (location)
-
+    - I want to ride  to [45 Le Duan, Phuong Phuoc Ninh, Hai Chau, Da Nang]{"entity": "location", "role": "to"} from [271 Nguyen Van Linh, Vinh Trung, Hai Chau, Da Nang]{"entity": "location", "role": "from"} at tomorrow
+    - I want to book from [147/7 Nguyen Dinh Ly, Khuong Trung, Da Nang, Viet Nam]{"entity": "location", "role": "from"} to [147 Nguyen Dinh Ly, Khuong Trung, Da Nang, Viet Nam]{"entity": "location", "role": "to"} at tomorrow
 - regex: location
   examples: |
-    - \d{1,4}(?:\/\d{1,4})?\s[A-Za-z\s]+(?:,\s[A-Za-z\s]+){1,4}
+    - \d{1,4}(?:\/\d{1,4})?\s?[A-Za-zÀ-ÿ\s]+(?:,\s[A-Za-zÀ-ÿ\s]+)*(?:,\s[A-Za-zÀ-ÿ\s]+)? +

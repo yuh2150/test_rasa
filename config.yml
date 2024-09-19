@@ -11,6 +11,8 @@ language: en
 pipeline:
 - name: WhitespaceTokenizer
 - name: RegexFeaturizer
+  case_sensitive: False
+  use_word_boundaries: False
   number_additional_patterns: 10
 - name: LexicalSyntacticFeaturizer
 - name: CountVectorsFeaturizer
@@ -18,23 +20,22 @@ pipeline:
   analyzer: char_wb
   min_ngram: 1
   max_ngram: 4
-- name: DIETClassifier
-  epochs: 100
-  constrain_similarities: true
 - name: DucklingEntityExtractor
   url: http://localhost:8000
   dimensions:
   - email
-  - number
   - amount-of-money
   - time
   - phone-number
   timezone: "Asia/Ho_Chi_Minh"
-- name: RegexEntityExtractor
-  case_sensitive: False
-  use_lookup_tables: True
-  use_regexes: True
-  use_word_boundaries: True
+# - name: RegexEntityExtractor
+#   case_sensitive: False
+#   use_lookup_tables: True
+#   use_regexes: True
+#   use_word_boundaries: True
+- name: DIETClassifier
+  epochs: 100
+  constrain_similarities: true
 - name: EntitySynonymMapper
 - name: ResponseSelector
   epochs: 100
@@ -42,20 +43,7 @@ pipeline:
 - name: FallbackClassifier
   threshold: 0.3
   ambiguity_threshold: 0.1
-# - name: "DucklingEntityExtractor"
-#   # url of the running duckling server
-#   url: "http://localhost:8000"
-#   # dimensions to extract
-#   dimensions: ["time", "number", "amount-of-money", "distance"]
-#   # allows you to configure the locale, by default the language is
-#   # used
-#   locale: "de_DE"
-#   # if not set the default timezone of Duckling is going to be used
-#   # needed to calculate dates from relative expressions like "tomorrow"
-#   timezone: "Europe/Berlin"
-#   # Timeout for receiving response from http url of the running duckling server
-#   # if not set the default timeout of duckling http url is set to 3 seconds.
-#   timeout : 3
+
 
 # Configuration for Rasa Core.
 # https://rasa.com/docs/rasa/core/policies/
