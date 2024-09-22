@@ -134,7 +134,29 @@ class ActionGeoCoding(Action):
             slot_updates.append(SlotSet("requested_slot", "destination_location"))
         
         return slot_updates
-
+class ActionaAskConfirmInfo(Actiona):
+    def name(self) -> Text:
+        return "action_ask_confirm_info"
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,) -> List[EventType]:
+        
+        pick_up_time = tracker.get_slot("pick_up_time")
+        pick_up_location = tracker.get_slot("pick_up_location")
+        destination_location = tracker.get_slot("destination_location")
+        person_name = tracker.get_slot("person_name")
+        number_contact = tracker.get_slot("number_contact")
+        
+        dispatcher.utter_message(text=f"Please confirm your ride details:\n"
+                              f"- Pickup Location: {pick_up_location['results'][0]['formatted_address']}\n"
+                              f"- Destination: {destination_location['results'][0]['formatted_address']}\n"
+                              f"- Pickup Time: {pick_up_time}\n"
+                              f"- Name: {person_name}\n"
+                              f"- Contact Number: {number_contact}\n")
+        return []
+        
 class ActionSubmitBookFormToGetQuotes(Action):
     def name(self) -> Text:
         return "action_submit_book_ride_form_to_get_quotes"
@@ -145,8 +167,8 @@ class ActionSubmitBookFormToGetQuotes(Action):
         domain: DomainDict,
     ) -> List[EventType]:
 
-        geoCoding_pickup = tracker.get_slot("pick_up_time")
-        geoCoding_destination = tracker.get_slot("pick_up_location")
+        pick_up_time = tracker.get_slot("pick_up_time")
+        pick_up_location = tracker.get_slot("pick_up_location")
         destination_location = tracker.get_slot("destination_location")
         person_name = tracker.get_slot("person_name")
         number_contact = tracker.get_slot("number_contact")
@@ -154,7 +176,7 @@ class ActionSubmitBookFormToGetQuotes(Action):
 
         # book_info = [person_name, number_contact,pick_up_location,destination_location,pick_up_time]
         
-        geoCodingAPI = GeoCodingAPI("https://map.local.goodjourney.io/api/mapProvider/geoCoding")    
+        # geoCodingAPI = GeoCodingAPI("https://map.local.goodjourney.io/api/mapProvider/geoCoding")    
         quotesAPI = QuotesAPI("https://dispatch.local.goodjourney.io/api/demand/v1/quotes",token=token)
         
         # geoCoding_pickup = geoCodingAPI.get_geocoding(pick_up_location + ", Da Nang" )
