@@ -1,20 +1,63 @@
 version: '3.1'
 intents:
 - affirm
-- ask_time
+- ask_how_contribute
 - book_a_ride
-- bot_challenge
+- broken
+- bye
+- cancel_ride
+- canthelp
+- change_destination_location
+- change_name
+- change_phone
+- change_pick_up_location
+- check_fare
+- check_ride_status
+- chitchat:
+    used_entities:
+    - location
+    - mood
+    - name
+    - number
+    - phone-number
+    - quoteId
+    - quoteId_value
+    - time
+    is_retrieval_intent: true
+- choose_quote
+- contact_sales
 - deny
-- goodbye
+- enter_data
+- explain
 - greet
-- mood_great
-- mood_unhappy
+- human_handoff
+- inquire_time
+- modify_ride
+- need_help_broad
+- out_of_scope:
+    used_entities:
+    - location
+    - mood
+    - name
+    - number
+    - phone-number
+    - quoteId
+    - quoteId_value
+    - time
+    is_retrieval_intent: true
+- provide_feedback
+- rate_ride
+- react_negative
+- react_positive
+- respond_wellbeing
+- restart
+- thank
 entities:
+- name
+- location
+- number
 - quoteId
 - time
-- number
-- location
-- name
 - mood
 - quoteId_value
 - phone-number
@@ -63,6 +106,32 @@ slots:
     mappings:
     - type: from_entity
       entity: time
+  # new_name:
+  #   type: any
+  #   mappings:
+  #   - type: from_entity
+  #     entity: name
+  new_phone:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: phone-number
+  new_pickup_location:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: location
+      role: from
+    - type: from_entity
+      entity: location
+  new_destination_location:
+    type: any
+    mappings:
+    - type: from_entity
+      entity: location
+      role: to
+    - type: from_entity
+      entity: location
 forms:
   book_ride_form:
     required_slots:
@@ -70,10 +139,17 @@ forms:
     - number_contact
     - pick_up_location
     - destination_location
+    - pick_up_time
 actions:
-- action_greet_user
-- action_submit_book_ride_form_to_get_quotes
+- action_geocoding
+- utter_ask_change_name
+- action_ask_confirm_info
+- action_change_name
+- utter_ask_problem_description
 - action_display_select_quotes
+- action_submit_book_ride_form_to_get_quotes
+- action_perform_booking_ride
+- action_greet_user
 - utter_bye
 - utter_ask_continue_booking
 - utter_what_help
@@ -89,30 +165,127 @@ actions:
 - action_explain_book_ride_form
 - utter_chitchat
 - utter_out_of_scope
-- action_geocoding
-- action_perform_booking_ride
+- action_change_phone
+- action_change_pick_up_location
+- action_change_destination_location
 responses:
+  utter_ask_change_name:
+  - text: Sure, I can help with that! What would you like your new name to be?
+  utter_ask_change_phone:
+  - text: Of course! What would you like your new phone number to be?
+  utter_ask_change_pickup:
+  - text: Got it! What’s your new pickup location?
+  utter_ask_change_destination:
+  - text: Sure! What would you like your new destination to be?
+  utter_anything_else:
+  - text: Is there anything else I can help you with?
+  utter_ask_problem_description:
+  - text: Can you describe the problem you're having?
+  utter_ask_email:
+  - text: What's your email address?
+  utter_ask_feedback:
+  - buttons:
+    - payload: '/feedback{{"feedback_value": "positive"}}'
+      title: 👍
+    - payload: '/feedback{{"feedback_value": "negative"}}'
+      title: 👎
+    text: How is this conversation going?
+  utter_ask_feedback_message:
+  - text: I'm sorry I couldn't help you. Please let me know if you have any suggestions for how I can improve.
+  utter_ask_person_name:
+  - text: What's your name?
+  utter_ask_pick_up_location:
+  - text: Please provide your pick-up location.
+  utter_ask_destination_location:
+  - text: Where would you like to go?
+  utter_ask_pick_up_time:
+  - text: When would you like to be picked up?
+  utter_ask_number_contact:
+  - text: Could you please provide your contact number?
+  utter_ask_more:
+  - text: Would you like to learn more?
+  utter_ask_more_details:
+  - text: Could you be more specific?
+  utter_ask_continue_booking:
+  - text: Would you like to continue with your booking, or is there something else I can help you with?
+  utter_bye:
+  - text: Goodbye!
+  utter_contact_email:
+  - text: While I can't connect you with a human directly here, you can always reach out to us via email at hi@gojo.com.
+  utter_default:
+  - text: Sorry, I didn't catch that 🤔. Could you try rephrasing?
+  utter_great:
+  - text: Great! 👍
   utter_greet:
-  - text: Hey! How are you?
-  utter_cheer_up:
-  - text: 'Here is something to cheer you up:'
-    image: https://i.imgur.com/nGF1K8f.jpg
+  - text: Hey there, my name is Gojo.
+  - text: Hi, I'm Gojo!
+  - text: Hi! My name's Gojo.
+  - text: Hello! I'm Gojo, nice to meet you.
+  - text: Hi there, I'm Gojo!
+  - text: Hey! Gojo here.
+  - text: Hello, my name is Gojo. How can I assist you today?
+  utter_greet_name:
+  - text: Hi, {name}!
+  - text: Hello, {name}!
+  - text: Hey, {name}!
+  - text: Hey, {name}, great to see you!
+  - text: Hi, {name}, how can I help you today?
+  - text: Hello, {name}, what can I do for you today?
+  - text: Hey there, {name}!
+  utter_greet_noname:
+  - text: Hey!
+  - text: Hi!
+  - text: Hi there! How can I help you today?
+  - text: Hello! How can I assist you?
+  - text: Hey! What can I do for you today?
+  - text: Hi! How’s it going?
+  utter_moreinformation:
+  - text: Sure, we can book a sales call! Let's get to know each other first 😉
+  utter_noworries:
+  - text: No worries!
+  - text: You're welcome!
+  - text: I'm happy to help.
+  - text: No worries at all!
+  - text: You're very welcome!
+  - text: Happy to help anytime!
+  - text: No problem, glad to assist!
+  utter_react_negative:
+  - text: 😕
+  - text: 😞
+  - text: 😥
+  - text: 😢
+  utter_react_positive:
+  - text: 😄
+  - text: 😊
+  - text: 👏
+  - text: 😍
+  utter_restart:
+  - text: Loading... And I've been restarted! 🤯
+  utter_thank_suggestion:
+  - text: Thanks for your input!
+  utter_thumbsup:
+  - text: 👍
+  - text: Okay.
+  - text: Got it.
+  - text: 👍 All set!
+  - text: Okay, got it!
+  - text: Thumbs up! 👍
+  - text: Noted! 👍
+  utter_nohelp:
+  - text: For now that's all I can do, so feel free to try it out. If you have any suggestions for what I should learn, let me know!
+  utter_what_help:
+  - text: Ok, what can I help you with?
+
+  utter_out_of_scope/non_english:
+  - text: I only understand English, I'm sorry.
+  utter_out_of_scope/other:
+  - text: I can't help you with that, I'm sorry.
   utter_did_that_help:
   - text: Did that help you?
   utter_happy:
   - text: Great, carry on!
-  utter_goodbye:
-  - text: Bye
-  utter_iamabot:
-  - text: I am a bot, powered by Rasa.
-  utter_time:
-  - text: 'The time is {time} '
-  utter_default:
-  - text: I'm sorry, I didn't understand that. Can you please try again?
-  utter_invalid_pick_up_location:
-    - text: "That doesn't seem like a valid pickup location. Please provide the correct address."
-  utter_invalid_destination_location:
-    - text: "That doesn't seem like a valid destination location. Please provide the correct address." 
+  utter_not_sure:
+  - text: Hmm, not sure what you mean...
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

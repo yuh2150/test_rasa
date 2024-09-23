@@ -92,15 +92,911 @@ nlu:
     - what's tomorrow?
     - what's the date today?
     - What's 9 AM tomorrow?
+- intent: inquire_time
+  examples: |
+    - what's the current time?
+    - what time ?
+    - What time is it now?
+    - Can you tell me the time?
+    - What’s the current time?
+    - Tell me the time, please.
+    - What is the time now?
+    - Do you know the current time?
+    - What time is it?
+    - Can you give me the current time?
+    - I want to know the time.
+    - Could you tell me the time?
+    - what current time
+- intent: provide_feedback
+  examples: |
+    - feedback
+    - give feedback
+    - provide feedback
 - intent: book_a_ride
   examples: |
     - book a ride
     - find a ride
+    - I need a ride
+    - I want to book a ride
+    - I need a ride to my destination
+    - I want to ride to my destination
     - I need a ride to work
-    - I want to ride from [271 Nguyen Van Linh, Vinh Trung, Hai Chau, Da Nang]{"entity": "location", "role": "from"} to [45 Le Duan, Phuong Phuoc Ninh, Hai Chau, Da Nang]{"entity": "location", "role": "to"} at tomorrow
-    - [271 Nguyen Van Linh, Vinh Trung, Hai Chau, Da Nang] (location)
-    - I want to ride  to [45 Le Duan, Phuong Phuoc Ninh, Hai Chau, Da Nang]{"entity": "location", "role": "to"} from [271 Nguyen Van Linh, Vinh Trung, Hai Chau, Da Nang]{"entity": "location", "role": "from"} at tomorrow
-    - I want to book from [147/7 Nguyen Dinh Ly, Khuong Trung, Da Nang, Viet Nam]{"entity": "location", "role": "from"} to [147 Nguyen Dinh Ly, Khuong Trung, Da Nang, Viet Nam]{"entity": "location", "role": "to"} at tomorrow
+    - I want to ride from [271 Nguyen Van Linh Vinh Trung Hai Chau Da Nang]{"entity": "location", "role": "from"} to [45 Le Duan Phuong Phuoc Ninh Hai Chau Da Nang]{"entity": "location", "role": "to"} at tomorrow
+    - I want to ride  to [45 Le Duan Phuong Phuoc Ninh Hai Chau Da Nang]{"entity": "location", "role": "to"} from [271 Nguyen Van Linh Vinh Trung Hai Chau Da Nang]{"entity": "location", "role": "from"} at tomorrow
+    - I want to book [147/7 Le Dinh Ly Khuong Trung Da Nang Viet Nam]{"entity": "location", "role": "from"} to [147 Nguyen Dinh Ly Khuong Trung Da Nang Viet Nam]{"entity": "location", "role": "to"} at tomorrow
+    - I want to book from [147 Nguyen Dinh Ly Khuong Trung Da Nang Viet Nam]{"entity": "location", "role": "from"}
+    - I want to book a ride to [466 Tran Dai Nghia Da Nang Viet Nam]{"entity": "location", "role": "to"}
+    - I want book a ride
+    - i want book a car
+    - i want boook a ride
+    - i want book a ride
+    - i want book a ride from [135 Nguyen Van Linh Da Nang]{"entity": "location", "role": "from"} to [271 Nguyen Van Linh Da Nang]{"entity": "location", "role": "to"} at now
+    - i want book a car from [02 Au Co Hoa Khanh Bac Da Nang]{"entity": "location", "role": "from"} to [271 Nguyen Van Linh Da Nang]{"entity": "location", "role": "to"} at now
+- intent: cancel_ride
+  examples: |
+    - cancel ride
+    - cancel my ride
+    - I want to cancel my ride
+    - I need to cancel my ride
+    - I don't want to ride
+    - I don't need a ride
+- intent: check_ride_status
+  examples: |
+    - check ride status
+    - check my ride status
+    - I need to check my ride status
+    - I want to know my ride status
+- intent: modify_ride
+  examples: |
+    - modify ride
+    - change my ride
+    - I want to modify my ride
+    - I need to modify my ride
+- intent: check_fare
+  examples: |
+    - check fare
+    - calculate fare
+    - I need to calculate my fare
+- intent: rate_ride
+  examples: |
+    - rate ride
+    - give ride rating
+    - I want to rate my ride
+    - I need to rate my ride
+    - I want to give my ride rating
+- intent: broken
+  examples: |
+    - it's not working
+    - I think it's broken
+    - [Rasa playgrounds](product) isn't working for me
+    - [Playground](product) is broken
+    - [rasa](product) is not working
+    - help me can you fix it
+    - it's broken
+    - it's not training
+    - the [playground](product) is not training
+    - [Rasa X](product) isn't working for me
+    - [Rasa Open Source](product) is not training at all
+    - For some reason, [Rasa X](product) never loads and I don't know why
+    - help me please it's not working
+    - it won't train
+    - the bot won't train
+- intent: change_name
+  examples: |
+    - I'd like to change my name
+    - I want to change my name
+    - Can I update my name in your system?
+    - How do I change my name?
+    - Could you change my name in your records?
+    - i want to change my name
+- intent: change_phone
+  examples: |
+    - I'd like to update my phone number
+    - Can I change my phone number in your system?
+    - How do I change my phone number?
+    - Could you update my phone number in your records?
+- intent: change_pick_up_location
+  examples: |
+    - I'd like to change my pickup location
+    - Can I update my pickup address?
+    - How do I change my pickup address?
+    - Could you update my pickup location in your system?
+- intent: change_destination_location
+  examples: |
+    - I'd like to change my destination address
+    - Can I update my destination location?
+    - How do I change the destination address?
+    - Could you update my destination location in your system?
+- intent: restart
+  examples: |
+    - yep you can restart
+    - Please restart this chat/
+    - ok restart please
+    - please restart the bot
+    - restart this conversation
+    - i want to restart
+    - why don't you restart????
+    - hey, i said restart
+    - restart session pls
+    - restart ps
 - regex: location
   examples: |
     - \d{1,4}(?:\/\d{1,4})?\s?[A-Za-zÀ-ÿ\s]+(?:,\s[A-Za-zÀ-ÿ\s]+)*(?:,\s[A-Za-zÀ-ÿ\s]+)? +
+- intent: enter_data
+  examples: |
+    - $1
+    - 1 euro
+    - 10000 dollars
+    - 10000000
+    - 100000k
+    - 10000k
+    - 100k
+    - 150,000 USD
+    - 150,000$/ year
+    - 2 euro
+    - 20k
+    - 240k/year
+    - 400 trilion
+    - 5 bucks
+    - 5 euros
+    - 5 mln
+    - 50,000 dollar
+    - 50,000,000 INR
+    - 50k
+    - 60 million INR
+    - 75000-150000 euro
+    - A customer service bot
+    - A wolf bot
+    - ACME bank
+    - ACME brands
+    - Able to integrate with paypal, wordpress, facebook andd twilio
+    - An ice cube bot
+    - Country names
+    - Evaluate Rasa :-)
+    - Flexible, but looking for low-cost alternative to proof of concept
+    - I am [Christina Sullivan](name)
+    - I am [Hattie Rice](name)
+    - I am [Robert Starks](name)
+    - I am a [Data Scientist](job_function)
+    - I am a [data scientist](job_function)
+    - I am a [head of business intelligence](job_function)
+    - I am a driver
+    - I am responsible for our [innovation department](job_function)
+    - I book a bus ticket
+    - I do not know yet
+    - I spend money
+    - I wanna build a bot that sends the people cute animal pictures based on their favorite color
+    - I wanna build a super bot to send me cute animal pictures
+    - I want a bot that sales my product that [Catherine Rodriguez](name) finally can focus on important stuff
+    - I want to build a bot that can substitute our entire workforce
+    - I want to build a cool bot
+    - I want to build a health insurance bot
+    - I want to build a kick ass bot
+    - I want to build a lot of different bots
+    - I want to build a sales bot
+    - I want to build an FAQ bot
+    - I want to use pip
+    - I work as a [frontend dev](job_function)
+    - I work as a [project manager](job_function)
+    - I work at [EXAMPLE insurance group](company) as [Head of Innovation](job_function)
+    - I work at the [NYT](company)
+    - I work for [Bayer](company)
+    - I work for [Stanford University](company)
+    - I work for the AI research group of the turing centre of the [UBC](company), Vancouver, Canada
+    - I work for the [New York Times](company)
+    - I work for the [new york times](company)
+    - I work in [innovation](job_function)
+    - I work in [project management](job_function)
+    - I would like to build an ice cube dispenser bot
+    - I wrote it in [chinese](language)
+    - I wrote it in [dutch](language)
+    - I wrote it in [english](language)
+    - I wrote it in [french](language)
+    - I wrote it in [german](language)
+    - I wrote it in [italian](language)
+    - I wrote it in [mandarin](language)
+    - I wrote it in [portuguese](language)
+    - I wrote it in [spanish](language)
+    - I'm [Gladys Bynum](name)
+    - I'm [Harvey Cordano](name)
+    - I'm [Jeanine Hwang](name)
+    - I'm [Virginia Mason](name)
+    - I'm [project manager](job_function)
+    - I'm a [bot developer](job_function)
+    - I'm a [business woman](job_function)
+    - I'm a [construction worker](job_function)
+    - I'm a [conversation designer](job_function)
+    - I'm a [developer](job_function)
+    - I'm a [full stack developer](job_function)
+    - I'm a [janitor](job_function)
+    - I'm a [machine learning engineer](job_function)
+    - I'm a [product manager](job_function)
+    - I'm a [project manager](job_function)
+    - I'm a [python developer](job_function)
+    - I'm a [software engineer](job_function)
+    - I'm a [student](job_function)
+    - I'm a bot [developer](job_function)
+    - I'm a real good [engineer](job_function)
+    - I'm an [AI researcher](job_function)
+    - I'm an [engineer](job_function)
+    - I'm in [business](job_function)
+    - I'm in [project mgmt](job_function)
+    - I'm the [boss](job_function)
+    - I'm the [developer](job_function)
+    - I'm the [lead engineer](job_function)
+    - Im a [full stack developer](job_function)
+    - It is Drew@Mccarthy.com
+    - I’ve trained it in [chinese](language)
+    - I’ve trained it in [dutch](language)
+    - I’ve trained it in [english](language)
+    - I’ve trained it in [french](language)
+    - I’ve trained it in [german](language)
+    - I’ve trained it in [italian](language)
+    - I’ve trained it in [mandarin](language)
+    - I’ve trained it in [portuguese](language)
+    - I’ve trained it in [spanish](language)
+    - My budget is oov
+    - My email is Richard@Simmons.com
+    - My name is [Ashleigh Mees](name)
+    - My name is [chelsea Parker](name)
+    - My name is [jessie maglione](name)
+    - My name is [Kenneth Sherman](name)
+    - My name is [Lee George](name)
+    - My name is [Louise Caudill](name)
+    - My name is [Richard smith](name)
+    - My name is [Shane Goodyear](name)
+    - My name is [Sondra Boyd](name)
+    - My name si [tom Harbin](name)
+    - My name si [Huy](name)
+    - No job
+    - None
+    - Rasa bot
+    - SCALABLE MINDS
+    - The master of desaster
+    - The name of the company is [Daimler](company)
+    - This is [Kim Vanderveen](name)
+    - This is [Norma Taylor](name)
+    - We plan to build a sales bot to increase our sales by 500%.
+    - Whatever it costs
+    - $0.00
+    - $1000
+    - 0
+    - 1 million
+    - 1 million big ones
+    - 10 m
+    - 1000000
+    - 100000
+    - 1000
+    - 100
+    - 10
+    - 10k
+    - 120000
+    - 1231
+    - 12
+    - 2 million
+    - 200 bucks
+    - 200000000
+    - 20000
+    - 20000k
+    - 2000k
+    - 200k
+    - 25,000
+    - 300 rupees
+    - 300000
+    - 300k
+    - 3
+    - 500 million
+    - 500000
+    - 5000
+    - 500k
+    - 50 p
+    - 5 quid
+    - 6000000
+    - 900 dollars
+    - 90k
+    - 99
+    - [ACME Mops](company)
+    - [AI engieer](job_function)
+    - [AI researcher](job_function)
+    - [Al Capone](name)
+    - [Allianz](company)
+    - [Angel Robinson company](company)
+    - [BBC](company)
+    - [BCBSM](company)
+    - [BCG brazil](company)
+    - [BCG digital ventures](company)
+    - [BigBotsInc](company)
+    - [BigBots](company)
+    - [Bosch](company)
+    - [CEO](job_function)
+    - [COO](job_function)
+    - [CSI](company)
+    - [CTO](job_function)
+    - Carolyn.Eisenhauer@Watkins.com
+    - [Club Mate](company)
+    - [David Carter](name)
+    - [Denise Armstrong's company](company)
+    - [Developer Advocate](job_function)
+    - [Developer](job_function)
+    - Ebony@gmail.com
+    - [Elise](name)
+    - [Founder](job_function)
+    - [Full Stack](job_function)
+    - [Full stack](job_function).
+    - [Helvetia](company)
+    - [I am a freelancer](company)
+    - [IBM](company)
+    - [IT manager](job_function)
+    - [Im Phyllis Howard](name)
+    - J_Herrera@gmail.com
+    - [Jamie Moore](name)
+    - [Jane Baines](name)
+    - [John Strickland](name)
+    - K_Claytor@yahoo.com
+    - K_Rainey@Yochum.net
+    - [Keith Donnell](name) PhD
+    - Kristin@yahoo.com
+    - [Linda Mchone](name)
+    - [Lithuanian](language)
+    - [McKinsey Germany](company)
+    - [Michele Perry](name)
+    - [Michelle Garcia](name)
+    - [Michelle Vinion](name)
+    - [Mr. Sweney](name)
+    - [N26](company)
+    - None?
+    - [Owner](job_function)
+    - [Product Manager](job_function)
+    - [Rasa](company)
+    - Robert.Sparks@gmail.com
+    - [SAP](company)
+    - [Scalable Minds](company)
+    - [Software engineer](job_function).
+    - [Steven Carter](name)'s company
+    - Ten
+    - [Terri Cline](name)
+    - [William Zelkind](name)
+    - Willie@gmail.com
+    - [Zendesk](company)
+    - a@b.com
+    - abhbose3k@gmail.com
+    - [accenture](company)
+    - [allianz](company)
+    - [amounts](entity)
+    - [arabic](language)
+    - [assistant to the CEO](job_function)
+    - [bayer](company)
+    - [botium](company)
+    - [brand manager](job_function)
+    - [ceo](job_function)
+    - [chinese](language)
+    - [chinese](language) is the language of my bot
+    - [chinese](language) is the only language but I want to add more
+    - [clue](company)
+    - [companies](entity)
+    - [custom entity](entity)
+    - [data analyst](job_function)
+    - [data science engineer](job_function)
+    - [data scientist](job_function)
+    - [designer](job_function)
+    - [dev](job_function)
+    - [developer advocate](job_function)
+    - [developer](job_function)
+    - How far is it? [10 kilometers](distances)
+    - The distance is [5 miles](distances)
+    - It's about [15 km](distances)
+    - The distance is approximately [3 kilometers](distances)
+    - [3 kilometers](distances)
+    - [dutch](language)
+    - [dutch](language) is the language of my bot
+    - [dutch](language) is the only language but I want to add more
+    - [engineer](job_function)
+    - [english](language)
+    - [english](language) is the language of my bot
+    - [english](language) is the only language but I want to add more
+    - [french](language)
+    - [french](language) is the language of my bot
+    - [french](language) is the only language but I want to add more
+    - [full stack](job_function)
+    - [fullstack](job_function)
+    - [german](language)
+    - [german](language) is the language of my bot
+    - [german](language) is the only language but I want to add more
+    - [google enginer](job_function)
+    - [growth manager](job_function)
+    - [hindi](language)
+    - How long will it take? [2 hours](how_long)
+    - It will take [3 days](how_long)
+    - I need it to be done in [15 minutes](how_long)
+    - The task lasts for [4 hours](how_long)
+    - How long does the process take? [6 months](how_long)
+    - It takes about [30 minutes](how_long)
+    - [30 minutes](how_long)
+    - [intel](company)
+    - [italian](language)
+    - [italian](language) is the language of my bot
+    - [italian](language) is the only language but I want to add more
+    - [italina](language)
+    - [klara health](company)
+    - [manager](job_function)
+    - [mandarin](language)
+    - [mandarin](language) is the language of my bot
+    - [mandarin](language) is the only language but I want to add more
+    - [marketing](job_function)
+    - [microsoft](company)
+    - [ml researcher](job_function)
+    - [no job](job_function)
+    - none
+    - none i will build it from scraps
+    - My phone number is [1234567890](number)
+    - I need [3](number) tickets
+    - Can you book a table for [4](number) people?
+    - I'll arrive in [2](number) hours
+    - The house number is [56](number)
+    - We need [5](number) items
+    - one billion
+    - one
+    - one that flatters me every morning
+    - one that will get me promoted
+    - one which asks me loads about myself
+    - [portuguese](language)
+    - [portuguese](language) is the language of my bot
+    - [portuguese](language) is the only language but I want to add more
+    - [product manager](job_function)
+    - [project manager](job_function)
+    - [reddit](company)
+    - [saler](job_function)
+    - [sales manager](job_function)
+    - [software developer](job_function)
+    - [software engineer](job_function)
+    - [spanish](language)
+    - [spanish](language) is the language of my bot
+    - [spanish](language) is the only language but I want to add more
+    - [susi ai](company)
+    - [t-mobile US](company)
+    - [ubisoft](company)
+    - [vodafone](company)
+    - [wurst co kg](company)
+    - [xyz](company)
+    - I want to ride from [271 Nguyen Van Linh Vinh Trung Hai Chau Da Nang](location)
+    - I want to ride  to [45 Le Duan Phuong Phuoc Ninh Hai Chau Da Nang](location)
+    - I want to book [147/7 Le Dinh Ly Khuong Trung Da Nang Viet Nam](location)
+    - The meeting is at [Central Park](location)
+    - [271 Nguyen Van Linh Vinh Trung Hai Chau Da Nang](location)
+    - [147/7 Le Dinh Ly Khuong Trung Da Nang Viet Nam](location)
+    - I am at [123 Elm Street](location)
+    - The event will be held in [New York](location)
+    - I need a ride to [the airport](location)
+    - [271 Le Dinh Ly Vinh Trung Hai Chau Đa Nang](location)
+    - a big ol transformer
+    - a bot
+    - a bot to get a promotion
+    - a bot which sends cute shiba pictures
+    - a chatbot for mops - mopbot
+    - a chatbot for our company
+    - a chocolate bot
+    - a cool bot
+    - a cool boy
+    - a customer service support system
+    - a good one?
+    - a great one
+    - a health bot
+    - a insurance tool that consults potential customers on the best life insurance to choose.
+    - a killer bot
+    - a pizza bot
+    - a sales bot
+    - a sentient robot
+    - a shitty bot
+    - a turtle
+    - a voice bot
+    - about 10 k
+    - all the training data was in [chinese](language)
+    - all the training data was in [dutch](language)
+    - all the training data was in [english](language)
+    - all the training data was in [french](language)
+    - all the training data was in [german](language)
+    - all the training data was in [italian](language)
+    - all the training data was in [mandarin](language)
+    - all the training data was in [portuguese](language)
+    - all the training data was in [spanish](language)
+    - an ice cream bot
+    - around $500,000 per year
+    - around 200k
+    - around one millon euros
+    - badass bot tester
+    - between 100 to 200.000
+    - big old bot
+    - boo
+    - bout 4,000,000 INR
+    - can you try E_Conder@gmail.com instead?
+    - chatbot
+    - chief lemonade officer
+    - chief nerd at rasa technologies
+    - company: [uber](company)
+    - conversational
+    - customer service
+    - customer service automation
+    - customer service automation bot
+    - don't have one
+    - driver
+    - eisenkleber limited co kg
+    - email = Patti.Salazar@gmail.com
+    - extracting [durations](entity)
+    - faq
+    - funny bot
+    - get [dates](entity) from messages
+    - how to extract [relationship](entity)
+    - got it
+    - half a million
+    - have no idea
+    - head of biz deve
+    - health care
+    - how much [money](entity)
+    - i am [self emplayed](job_function)
+    - i am a [projject manager](job_function)
+    - i am interested in [ordinals](entity)
+    - i don't have one
+    - i don't have it
+    - i don't know
+    - i have none
+    - i have about 200 bucks in my savings account
+    - i need a bot for customer service automation
+    - i sell turtles
+    - i ues [chinese](language)
+    - i use [chinese](language)
+    - i use anaconda
+    - i wanna build all the bots
+    - i want a great bot to impress my boss
+    - i want to build a bot
+    - i want to build a bot about me
+    - i want to build a health bot
+    - i want to build all the bots
+    - i want to build an insurance bot
+    - i want to build bots
+    - i want to built a [Eric Jones](name) bot
+    - i want to extract [names](entity)
+    - i work in [biz dev](job_function)
+    - i'd like to build a transformer
+    - i'd like to build sentient glibber or glitter
+    - i'm [Herbert Ball](name)
+    - i'm [head of sales](job_function)
+    - i'm a [dev](job_function)
+    - i'm a [developer](job_function)
+    - i'm a [product manager](job_function)
+    - i'm a [race car driver](job_function)
+    - i'm a [solutions architect](job_function)
+    - i'm a developer
+    - i'm a glibber and glitter salesman
+    - i'm in [customer success](job_function)
+    - i'm in [marketing](job_function)
+    - i'm in [sales](job_function)
+    - im a [dev](job_function)
+    - im a [developer](job_function)
+    - im a [freelancer](job_function)
+    - im in [marketing](job_function)
+    - im lonely
+    - in health care domain
+    - it is in [chinese](language)
+    - it is in [dutch](language)
+    - it is in [english](language)
+    - it is in [french](language)
+    - it is in [german](language)
+    - it is in [italian](language)
+    - it is in [mandarin](language)
+    - it is in [portuguese](language)
+    - it is in [spanish](language)
+    - it speaks [chinese](language)
+    - it speaks [dutch](language)
+    - it speaks [english](language)
+    - it speaks [french](language)
+    - it speaks [german](language)
+    - it speaks [italian](language)
+    - it speaks [mandarin](language)
+    - it speaks [portuguese](language)
+    - it speaks [spanish](language)
+    - it's 500000000
+    - it's [Katie Betz](name)
+    - it's R_Iuliucci@yahoo.com
+    - it's [Robert Weir](name)
+    - it's Shannon.Adelman@Hurt.com
+    - it's a small company from the US, the name is [Microsoft](company)
+    - it's a tech company, [apple](company)
+    - it's the [moabit yoga studio](company)
+    - its an [chinese](language) bot
+    - its an [dutch](language) bot
+    - its an [english](language) bot
+    - its an [french](language) bot
+    - its an [german](language) bot
+    - its an [italian](language) bot
+    - its an [mandarin](language) bot
+    - its an [portuguese](language) bot
+    - its an [spanish](language) bot
+    - it’s an [chinese](language) bot
+    - it’s an [dutch](language) bot
+    - it’s an [english](language) bot
+    - it’s an [french](language) bot
+    - it’s an [german](language) bot
+    - it’s an [italian](language) bot
+    - it’s an [mandarin](language) bot
+    - it’s an [portuguese](language) bot
+    - it’s an [spanish](language) bot
+    - it’s available in [chinese](language)
+    - it’s available in [dutch](language)
+    - it’s available in [english](language)
+    - it’s available in [french](language)
+    - it’s available in [german](language)
+    - it’s available in [italian](language)
+    - it’s available in [mandarin](language)
+    - it’s available in [portuguese](language)
+    - it’s available in [spanish](language)
+    - it’s in [chinese](language)
+    - it’s in [dutch](language)
+    - it’s in [english](language)
+    - it’s in [french](language)
+    - it’s in [german](language)
+    - it’s in [italian](language)
+    - it’s in [mandarin](language)
+    - it’s in [portuguese](language)
+    - it’s in [spanish](language)
+    - it’s only in [chinese](language) but I plan to train it in other languages
+    - it’s only in [dutch](language) but I plan to train it in other languages
+    - it’s only in [english](language) but I plan to train it in other languages
+    - it’s only in [french](language) but I plan to train it in other languages
+    - it’s only in [german](language) but I plan to train it in other languages
+    - it’s only in [italian](language) but I plan to train it in other languages
+    - it’s only in [mandarin](language) but I plan to train it in other languages
+    - it’s only in [portuguese](language) but I plan to train it in other languages
+    - it’s only in [spanish](language) but I plan to train it in other languages
+    - it’s trained in [chinese](language)
+    - it’s trained in [dutch](language)
+    - it’s trained in [english](language)
+    - it’s trained in [french](language)
+    - it’s trained in [german](language)
+    - it’s trained in [italian](language)
+    - it’s trained in [mandarin](language)
+    - it’s trained in [portuguese](language)
+    - it’s trained in [spanish](language)
+    - it’s trained only in [chinese](language)
+    - it’s trained only in [dutch](language)
+    - it’s trained only in [english](language)
+    - it’s trained only in [french](language)
+    - it’s trained only in [german](language)
+    - it’s trained only in [italian](language)
+    - it’s trained only in [mandarin](language)
+    - it’s trained only in [portuguese](language)
+    - it’s trained only in [spanish](language)
+    - language = [chinese](language)
+    - language = [dutch](language)
+    - language = [english](language)
+    - language = [french](language)
+    - language = [german](language)
+    - language = [italian](language)
+    - language = [mandarin](language)
+    - language = [portuguese](language)
+    - language = [spanish](language)
+    - language: [chinese](language)
+    - language: [dutch](language)
+    - language: [english](language)
+    - language: [french](language)
+    - language: [german](language)
+    - language: [italian](language)
+    - language: [mandarin](language)
+    - language: [portuguese](language)
+    - language: [spanish](language)
+    - lead generation
+    - like 60 quid
+    - mail: Geneva.Favors@yahoo.com
+    - maybe then instead James@Anast.com
+    - mi name is [Kathy Wright](name)
+    - my bot is in [chinese](language)
+    - my bot is in [dutch](language)
+    - my bot is in [english](language)
+    - my bot is in [french](language)
+    - my bot is in [german](language)
+    - my bot is in [italian](language)
+    - my bot is in [mandarin](language)
+    - my bot is in [portuguese](language)
+    - my bot is in [spanish](language)
+    - my business mail is s_Dibenedetto@Simpson.net
+    - my email is Carole@Hart.com
+    - my email is Elinor_Stock@Higgenbotham.com
+    - my email is K_Spivey@yahoo.com
+    - my email is Kelly@Coulter.net
+    - my email is M_Jones@Luna.com
+    - my email is Mia_Gainey@gmail.com
+    - my email is S_Calderon@Cofield.com
+    - my email is Virginia@Brown.com
+    - my emayl is V_Comley@Nelson.com
+    - my function is [to serve butter](job_function)
+    - my job function is [developer](job_function)
+    - my name is [Alexander Kohn](name)
+    - my name is [betty mclendon](name)
+    - my name is [Brian Leung](name)
+    - my name is [Claude Ake](name)
+    - my name is [Earl Ring](name)
+    - my name is [Felicia Cosby](name)
+    - my name is [Frances Kunkle](name)
+    - my name is [Greg King](name)
+    - my name is [james culpit](name)
+    - my name is [Jermaine Mccleery](name)
+    - my name is [John Evers](name)
+    - my name is [Joseph Parson](name)
+    - my name is [Monica Ser](name)
+    - my name is [Nigel Partida](name)
+    - my name is [Staci Simpson](name)
+    - my name is [susan crandall](name)
+    - my name is [Tabitha Schoenthal](name)
+    - my name's [Michael Peppers](name)
+    - my own
+    - n/a
+    - no idea
+    - not sure yet
+    - not sure yet, we plan with 50 thousand euro at the moment
+    - nothing
+    - ok I'm actually an [engineer](job_function)
+    - ok it's Hee@yahoo.com
+    - ok its P_Simpkins@Suehs.com
+    - on that will get me promoted
+    - one bot
+    - one trillion dollar
+    - oov
+    - oov per year
+    - operations
+    - our estimation is 10k
+    - picking my nose
+    - pip
+    - pip is fine
+    - pip please
+    - please conda
+    - please give me instructions for pip
+    - problem solving
+    - sales assitant
+    - sales bot
+    - sales guy
+    - so far it only speaks [chinese](language)
+    - so far it only speaks [dutch](language)
+    - so far it only speaks [english](language)
+    - so far it only speaks [french](language)
+    - so far it only speaks [german](language)
+    - so far it only speaks [italian](language)
+    - so far it only speaks [mandarin](language)
+    - so far it only speaks [portuguese](language)
+    - so far it only speaks [spanish](language)
+    - something to talk to my friends while I'm busy working
+    - the [New York Times](company)
+    - the [ice cream factory](company) is the company
+    - the assistant is in [chinese](language)
+    - the assistant is in [dutch](language)
+    - the assistant is in [english](language)
+    - the assistant is in [french](language)
+    - the assistant is in [german](language)
+    - the assistant is in [italian](language)
+    - the assistant is in [mandarin](language)
+    - the assistant is in [portuguese](language)
+    - the assistant is in [spanish](language)
+    - the assistant speaks [chinese](language)
+    - the assistant speaks [dutch](language)
+    - the assistant speaks [english](language)
+    - the assistant speaks [french](language)
+    - the assistant speaks [german](language)
+    - the assistant speaks [italian](language)
+    - the assistant speaks [mandarin](language)
+    - the assistant speaks [portuguese](language)
+    - the assistant speaks [spanish](language)
+    - the bot like you
+    - the bot should help with HR stuff
+    - the bot speaks [chinese](language)
+    - the bot speaks [dutch](language)
+    - the bot speaks [english](language)
+    - the bot speaks [french](language)
+    - the bot speaks [german](language)
+    - the bot speaks [italian](language)
+    - the bot speaks [mandarin](language)
+    - the bot speaks [portuguese](language)
+    - the bot speaks [spanish](language)
+    - the bot that helps you choose insurance for the car ;)
+    - the language is [chinese](language)
+    - the language is [dutch](language)
+    - the language is [english](language)
+    - the language is [french](language)
+    - the language is [german](language)
+    - the language is [italian](language)
+    - the language is [mandarin](language)
+    - the language is [portuguese](language)
+    - the language is [spanish](language)
+    - the language of the ai assistant is [chinese](language)
+    - the language of the ai assistant is [dutch](language)
+    - the language of the ai assistant is [english](language)
+    - the language of the ai assistant is [french](language)
+    - the language of the ai assistant is [german](language)
+    - the language of the ai assistant is [italian](language)
+    - the language of the ai assistant is [mandarin](language)
+    - the language of the ai assistant is [portuguese](language)
+    - the language of the ai assistant is [spanish](language)
+    - the people speak [chinese](language)
+    - the people speak [dutch](language)
+    - the people speak [english](language)
+    - the people speak [french](language)
+    - the people speak [german](language)
+    - the people speak [italian](language)
+    - the people speak [mandarin](language)
+    - the people speak [portuguese](language)
+    - the people speak [spanish](language)
+    - there is no budget
+    - until now it’s only in [chinese](language)
+    - until now it’s only in [dutch](language)
+    - until now it’s only in [english](language)
+    - until now it’s only in [french](language)
+    - until now it’s only in [german](language)
+    - until now it’s only in [italian](language)
+    - until now it’s only in [mandarin](language)
+    - until now it’s only in [portuguese](language)
+    - until now it’s only in [spanish](language)
+    - user can communicate with the bot in [chinese](language)
+    - user can communicate with the bot in [dutch](language)
+    - user can communicate with the bot in [english](language)
+    - user can communicate with the bot in [french](language)
+    - user can communicate with the bot in [german](language)
+    - user can communicate with the bot in [italian](language)
+    - user can communicate with the bot in [mandarin](language)
+    - user can communicate with the bot in [portuguese](language)
+    - user can communicate with the bot in [spanish](language)
+    - user can talk to my bot in [chinese](language)
+    - user can talk to my bot in [dutch](language)
+    - user can talk to my bot in [english](language)
+    - user can talk to my bot in [french](language)
+    - user can talk to my bot in [german](language)
+    - user can talk to my bot in [italian](language)
+    - user can talk to my bot in [mandarin](language)
+    - user can talk to my bot in [portuguese](language)
+    - user can talk to my bot in [spanish](language)
+    - we are a covert government organisation
+    - we don't have one
+    - we plan to build a sales bot to increase our revenue by 100%.
+    - we plan with 250.000 euro for one year
+    - we think 4 million INR/ year
+    - we're building a conversational assistant for our employees to book meeting rooms.
+    - £50k
+    - [botonic](company)
+    - [wordpress](company)
+    - slack
+    - e commerce bot
+    - My name is [manuel](name)
+    - I am [Aniket](name)
+    - general and sales
+    - [rasa](product)
+    - [botpress](current_api)
+    - simple bpt
+    - education bot
+    - contexual
+    - Sorry  it's not [suleman](name) is [Shehzad](name)
+    - [x](product)
+    - [dialogueflow](current_api)
+    - T10
+    - the company is called t10
+    - [local](install_type)
+    - [locally](install_type)
+    - [server](install_type)
+    - I'm interested in [local](install_type) installation
+    - I'm interested in [server](install_type) installation
+    - [my computer](install_type)
+    - [my machine](install_type)
+    - [my laptop](install_type)
+    - [local machine](install_type)
+    - [dialogue management](product)
+    - [Dialogue Management](product) please
+    - [DIALOGUE MANAGEMENT](product)
+    - [dialog management](product)
+    - [dialogue management](product) please
+    - [Dialogue management](product)
+    - Huy
+    - my name is [Huy](name)
+    - my phone number is [0917159357](number)
+    - name [Huy](name)
+    - number [0917181880](number)
+    - my number is [0917181880](number)
+    - [271 Nguyen Van Linh Da Nang](location)
+    - [01 Nguyen Van Linh Da Nang](location)
+    - my name is [Huy](name)
+    - number is [0917181880](number)
+    - my new name is [Khoa](name)

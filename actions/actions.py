@@ -1,7 +1,8 @@
 
 import logging
 import json
-import pytz
+import pytz 
+from pytz import timezone
 
 from typing import Any, Dict, List, Text, Optional
 from datetime import datetime, timedelta
@@ -23,7 +24,7 @@ from actions.API.getQuotes import QuotesAPI
 
 
 # quotes = []
-token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbGVldElkIjoieWVsbG93IiwidGhpcmRQYXJ0eSI6IlZpbmNlbnQgQVBJIiwiYXBwTmFtZSI6IlZpbmNlbnQgQVBJIiwiX2lkIjoiNjU5NzgwMjQ1YTNmMmI0YzAyOGU1ZjlkIiwiaWF0IjoxNzI2NzQwNDU3LCJleHAiOjE3MjY3NDQwNTcsImF1ZCI6ImF1dGguZ29qby5nbG9iYWwifQ.byzmxPxqbtNmYUphaPArnKp_3NF7EG4yjAswdE2_ukE"
+token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbGVldElkIjoieWVsbG93IiwidGhpcmRQYXJ0eSI6IlZpbmNlbnQgQVBJIiwiYXBwTmFtZSI6IlZpbmNlbnQgQVBJIiwiX2lkIjoiNjU5NzgwMjQ1YTNmMmI0YzAyOGU1ZjlkIiwiaWF0IjoxNzI3MDgxMjc2LCJleHAiOjE3MjcwODQ4NzYsImF1ZCI6ImF1dGguZ29qby5nbG9iYWwifQ.i-9ZA3xOzh65rHxBWfPIUN-ltfwEE_kYhwZmA640ef8"
 
 class Quote:
     def __init__(self, quote_id, expires_at, vehicle_type, price_value, price_currency, luggage, passengers, provider_name, provider_phone):
@@ -134,7 +135,7 @@ class ActionGeoCoding(Action):
             slot_updates.append(SlotSet("requested_slot", "destination_location"))
         
         return slot_updates
-class ActionaAskConfirmInfo(Actiona):
+class ActionaAskConfirmInfo(Action):
     def name(self) -> Text:
         return "action_ask_confirm_info"
     def run(
@@ -172,31 +173,15 @@ class ActionSubmitBookFormToGetQuotes(Action):
         destination_location = tracker.get_slot("destination_location")
         person_name = tracker.get_slot("person_name")
         number_contact = tracker.get_slot("number_contact")
-        # date = datetime.datetime.now().strftime("%d/%m/%Y")
-
-        # book_info = [person_name, number_contact,pick_up_location,destination_location,pick_up_time]
         
-        # geoCodingAPI = GeoCodingAPI("https://map.local.goodjourney.io/api/mapProvider/geoCoding")    
         quotesAPI = QuotesAPI("https://dispatch.local.goodjourney.io/api/demand/v1/quotes",token=token)
         
-        # geoCoding_pickup = geoCodingAPI.get_geocoding(pick_up_location + ", Da Nang" )
-        # geoCoding_destination = geoCodingAPI.get_geocoding(destination_location + ", Da Nang")
-        now_utc = datetime.now(pytz.utc)
-
-        # Format the time in ISO 8601 format
-        current_time_iso = now_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
-
-        # Parse the current ISO 8601 time string back to a datetime object with UTC timezone
-        current_time_dt = datetime.strptime(current_time_iso, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.utc)
-
-        # Add 7 hours (GMT+7)
-        new_dt = current_time_dt + timedelta(hours=7)
-
-        # Format the new datetime object back to ISO 8601 format
-        pickup_datetime = new_dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+        geoCoding_pickup = pick_up_location 
+        geoCoding_destination = destination_location
         
-        # pickup_coords = { "latitude": 16.059052,"longitude": 108.2112656,}
-        # destination_coords = { "latitude": 16.0595717,"longitude": 108.2111016,}
+        input_datetime = datetime.fromisoformat(pick_up_time)
+        pickup_datetime = input_datetime.strftime('%Y-%m-%dT%H:%M:%SZ')
+        
         pickup_coords = { "latitude": float(geoCoding_pickup['results'][0]['geometry']['location']['lat']),"longitude": float(geoCoding_pickup['results'][0]['geometry']['location']['lng']),}
         destination_coords = { "latitude": float(geoCoding_destination['results'][0]['geometry']['location']['lat']),"longitude": float(geoCoding_destination['results'][0]['geometry']['location']['lng']),}
         
@@ -264,4 +249,58 @@ class ActionPerformBookingRide(Action):
         dispatcher.utter_message(response.get('status'))
         # dispatcher.utter_message(text=response)
         return []
+    
+class ActionChangeName(Action):
+    def name(self) -> str:
+        return "action_change_name"
 
+    def run(self, dispatcher, tracker, domain):
+        # new_name = tracker.get_slot("new_name")
+        dispatcher.utter_message(text=f"Your name want changed to:")
+        return [SlotSet("requested_slot", "pick_up_location")]  # Cập nhật giá trị slot "name"
+
+
+class ActionChangePhone(Action):
+    def name(self) -> str:
+        return "action_change_phone"
+
+    def run(self, dispatcher, tracker, domain):
+        new_phone = tracker.get_slot("new_phone")
+        dispatcher.utter_message(text=f"Your phone number has been changed to: {new_phone}")
+        return [SlotSet("number_contact", new_phone)]  # Cập nhật slot "phone"
+
+class ActionChangePickupLocation(Action):
+    def name(self) -> str:
+        return "action_change_pick_up_location"
+
+    def run(self, dispatcher, tracker, domain):
+        new_location = tracker.get_slot("new_pickup_location")
+        geoCodingAPI = GeoCodingAPI("https://map.local.goodjourney.io/api/mapProvider/geoCoding")
+        
+        geoCoding_pickup = geoCodingAPI.get_geocoding(new_location)
+        slot_updates = []
+        if geoCoding_pickup["status"] == "OK":
+            # Assuming the geocoding response has a formatted address or coordinates
+            slot_updates.append(SlotSet("pick_up_location", geoCoding_pickup))  # Store only the address or relevant info
+        else:
+            dispatcher.utter_message(response="utter_invalid_pick_up_location")
+            slot_updates.append(SlotSet("requested_slot", "pick_up_location"))
+        return slot_updates
+            
+class ActionChangeDestinantionLocation(Action):
+    def name(self) -> str:
+        return "action_change_destination_location"
+
+    def run(self, dispatcher, tracker, domain):
+        new_location = tracker.get_slot("new_destination_location")
+        geoCodingAPI = GeoCodingAPI("https://map.local.goodjourney.io/api/mapProvider/geoCoding")
+        
+        geoCoding_destination = geoCodingAPI.get_geocoding(new_location)
+        slot_updates = []
+        if geoCoding_destination["status"] == "OK":
+            # Assuming the geocoding response has a formatted address or coordinates
+            slot_updates.append(SlotSet("destinations_location", geoCoding_destination))  # Store only the address or relevant info
+        else:
+            dispatcher.utter_message(response="utter_invalid_destination_location")
+            slot_updates.append(SlotSet("requested_slot", "pick_up_location"))
+        return slot_updates

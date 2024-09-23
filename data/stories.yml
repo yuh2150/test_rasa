@@ -1,34 +1,502 @@
 version: "3.1"
-
 stories:
+- story: thanks
+  steps:
+  - intent: thank
+  - action: utter_noworries
+  - action: utter_anything_else
+- story: bye
+  steps:
+  - intent: bye
+  - action: utter_bye
+- story: greet
+  steps:
+  - or:
+    - intent: greet
+    - intent: enter_data
+      entities:
+      - name: akela
+  - action: action_greet_user
+# - story: booking a ride
+#   steps:
+#   - intent: greet
+#   - action: action_greet_user
+#   - intent: book_a_ride
+#   - action: book_ride_form
+#   - active_loop: book_ride_form
+#   - active_loop: null
+#   - action: action_submit_book_ride_form_to_get_quotes
+#   - action: action_display_select_quotes
+#   - action: action_perform_booking_ride
+#   - action: utter_ask_feedback_message
+#   - intent: provide_feedback
+#   # - action: action_tag_feedback
+#   - action: utter_thumbsup
+#   - action: utter_anything_else
 
-- story: happy path
+- story: neither options
   steps:
   - intent: greet
-  - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
-
-- story: sad path 1
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
-
-- story: sad path 2
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
+  - action: action_greet_user
   - intent: deny
-  - action: utter_goodbye
-- story: ask_time
+  - action: utter_nohelp
+
+- story: anything else? - no
   steps:
-  - intent: ask_time
-  - action: utter_time
+  - action: utter_anything_else
+  - intent: deny
+  - action: utter_thumbsup
+- story: anything else?
+  steps:
+  - action: utter_anything_else
+  - intent: enter_data
+  - action: utter_not_sure
+- story: positive reaction
+  steps:
+  - intent: react_positive
+  - action: utter_react_positive
+- story: negative reaction
+  steps:
+  - intent: react_negative
+  - action: utter_react_negative
+- story: need help with a technical question
+  steps:
+  - intent: greet
+  - action: action_greet_user
+  - intent: need_help_broad
+  - action: utter_ask_more_details
+- story: interactive_story_4
+  steps:
+  - intent: greet
+  - action: action_greet_user
+  - slot_was_set:
+    - shown_privacy: true
+
+
+- story: interactive_story_1
+  steps:
+  - intent: greet
+  - action: action_greet_user
+  - slot_was_set:
+    - shown_privacy: true
+  - intent: book_a_ride
+  - action: book_ride_form
+  - active_loop: book_ride_form
+  - slot_was_set:
+    - requested_slot: person_name
+  - intent: enter_data
+    entities:
+    - name: Huy
+  - slot_was_set:
+    - person_name: Huy
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: number_contact
+  - intent: enter_data
+    entities:
+    - number: '0917181880'
+    - phone-number: '0917181880'
+  - slot_was_set:
+    - number_contact: '0917181880'
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: pick_up_location
+  - intent: enter_data
+    entities:
+    - location: 271 Nguyen Van Linh Da Nang
+  - slot_was_set:
+    - pick_up_location: 271 Nguyen Van Linh Da Nang
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: destination_location
+  - intent: enter_data
+    entities:
+    - location: 01 Nguyen Van Linh Da Nang
+  - slot_was_set:
+    - destination_location: 01 Nguyen Van Linh Da Nang
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: pick_up_time
+  - intent: enter_data
+    entities:
+    - time: '2024-09-23T11:00:35.000+07:00'
+  - slot_was_set:
+    - pick_up_time: '2024-09-23T11:00:35.000+07:00'
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_geocoding
+  - slot_was_set:
+    - pick_up_location:
+        results:
+        - address_components:
+          - long_name: '271'
+            short_name: '271'
+            types:
+            - street_number
+          - long_name: Nguyen Van Linh
+            short_name: Nguyen Van Linh
+            types:
+            - route
+          - long_name: Vinh Trung
+            short_name: Vinh Trung
+            types:
+            - administrative_area_level_2
+          - long_name: Da Nang
+            short_name: Da Nang
+            types:
+            - locality
+          - long_name: Da Nang
+            short_name: ''
+            types:
+            - administrative_area_level_1
+          - long_name: Vietnam
+            short_name: VN
+            types:
+            - country
+          formatted_address: 271 Nguyen Van Linh, Vinh Trung, Thanh Khe, Da Nang, Vietnam
+          geometry:
+            location:
+              lat: 16.0598925
+              lng: 108.2115959
+            viewport:
+              northeast:
+                lat: 16.0643840764206
+                lng: 108.21626988795599
+              southwest:
+                lat: 16.055400923579402
+                lng: 108.20692191204402
+          name: 271 Nguyen Van Linh
+        status: OK
+  - slot_was_set:
+    - destination_location:
+        results:
+        - address_components:
+          - long_name: '1'
+            short_name: '1'
+            types:
+            - street_number
+          - long_name: Nguyen Van Linh
+            short_name: Nguyen Van Linh
+            types:
+            - route
+          - long_name: Binh Hien
+            short_name: Binh Hien
+            types:
+            - administrative_area_level_2
+          - long_name: Da Nang
+            short_name: Da Nang
+            types:
+            - locality
+          - long_name: Da Nang
+            short_name: ''
+            types:
+            - administrative_area_level_1
+          - long_name: Vietnam
+            short_name: VN
+            types:
+            - country
+          formatted_address: 1 Nguyen Van Linh, Binh Hien, Hai Chau, Da Nang, Vietnam
+          geometry:
+            location:
+              lat: 16.0608744
+              lng: 108.2227773
+            viewport:
+              northeast:
+                lat: 16.065365976420598
+                lng: 108.22745131101571
+              southwest:
+                lat: 16.0563828235794
+                lng: 108.2181032889843
+          name: 1 Nguyen Van Linh
+        status: OK
+  - action: action_ask_confirm_info
+  - intent: affirm
+  - action: action_submit_book_ride_form_to_get_quotes
+  - slot_was_set:
+    - quotes:
+      - quoteId: 9f38374c-dbc9-401a-b091-e2ddb80e5c6a
+        expiresAt: '2024-09-23T06:04:25.717Z'
+        vehicleType: MOTE
+        price:
+          value: 17.26
+          currency: CAD
+        luggage: 0
+        passengers: 0
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: 9c7d87b7-fcce-47de-9692-2665c4fdb1ad
+        expiresAt: '2024-09-23T06:04:25.717Z'
+        vehicleType: NewRegular
+        price:
+          value: 17.26
+          currency: CAD
+        luggage: 0
+        passengers: 5
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: 4a7259ec-2a95-45da-8534-5dd19f0c48c9
+        expiresAt: '2024-09-23T06:04:25.717Z'
+        vehicleType: Cargo +2 (20m3)
+        price:
+          value: 43.25
+          currency: CAD
+        luggage: 6
+        passengers: 7
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: 6fe17a9b-30e4-470d-979a-142af39f8459
+        expiresAt: '2024-09-23T06:04:25.717Z'
+        vehicleType: Honda SH 135
+        price:
+          value: 43.25
+          currency: CAD
+        luggage: 1
+        passengers: 2
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: ebb838ba-205c-4805-bbbb-60615090e150
+        expiresAt: '2024-09-23T06:04:25.718Z'
+        vehicleType: Sans véhicule
+        price:
+          value: 46.25
+          currency: CAD
+        luggage: 5
+        passengers: 5
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: 7e903bb2-d075-47b4-8fe1-3924d08bb765
+        expiresAt: '2024-09-23T06:04:25.718Z'
+        vehicleType: Electric- كهرباء
+        price:
+          value: 24.23
+          currency: CAD
+        luggage: 5
+        passengers: 5
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+  - action: action_display_select_quotes
+  - intent: choose_quote
+    entities:
+    - quoteId: 9c7d87b7-fcce-47de-9692-2665c4fdb1ad
+  - slot_was_set:
+    - quoteId: 9c7d87b7-fcce-47de-9692-2665c4fdb1ad
+  - action: action_perform_booking_ride
+
+- story: interactive_story_2
+  steps:
+  - intent: book_a_ride
+    entities:
+    - location: 135 Nguyen Van Linh Da Nang
+    - location: 271 Nguyen Van Linh Da Nang
+    - time: '2024-09-23T14:30:30.000+07:00'
+  - action: book_ride_form
+  - active_loop: book_ride_form
+  - slot_was_set:
+    - pick_up_location: 135 Nguyen Van Linh Da Nang
+  - slot_was_set:
+    - destination_location: 271 Nguyen Van Linh Da Nang
+  - slot_was_set:
+    - pick_up_time: '2024-09-23T14:30:30.000+07:00'
+  - slot_was_set:
+    - requested_slot: person_name
+  - intent: enter_data
+    entities:
+    - name: Huy
+  - slot_was_set:
+    - person_name: Huy
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: number_contact
+  - intent: enter_data
+    entities:
+    - number: '0917181880'
+    - phone-number: '0917181880'
+  - slot_was_set:
+    - number_contact: '0917181880'
+  - action: book_ride_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_geocoding
+  - slot_was_set:
+    - pick_up_location:
+        results:
+        - address_components:
+          - long_name: '135'
+            short_name: '135'
+            types:
+            - street_number
+          - long_name: Nguyen Van Linh
+            short_name: Nguyen Van Linh
+            types:
+            - route
+          - long_name: Nam Duong
+            short_name: Nam Duong
+            types:
+            - administrative_area_level_2
+          - long_name: Da Nang
+            short_name: Da Nang
+            types:
+            - locality
+          - long_name: Da Nang
+            short_name: ''
+            types:
+            - administrative_area_level_1
+          - long_name: Vietnam
+            short_name: VN
+            types:
+            - country
+          formatted_address: 135 Nguyen Van Linh, Nam Duong, Hai Chau, Da Nang, Vietnam
+          geometry:
+            location:
+              lat: 16.0603994
+              lng: 108.2155375
+            viewport:
+              northeast:
+                lat: 16.0648909764206
+                lng: 108.22021149986023
+              southwest:
+                lat: 16.055907823579403
+                lng: 108.21086350013977
+          name: 135 Nguyen Van Linh
+        status: OK
+  - slot_was_set:
+    - destination_location:
+        results:
+        - address_components:
+          - long_name: '271'
+            short_name: '271'
+            types:
+            - street_number
+          - long_name: Nguyen Van Linh
+            short_name: Nguyen Van Linh
+            types:
+            - route
+          - long_name: Vinh Trung
+            short_name: Vinh Trung
+            types:
+            - administrative_area_level_2
+          - long_name: Da Nang
+            short_name: Da Nang
+            types:
+            - locality
+          - long_name: Da Nang
+            short_name: ''
+            types:
+            - administrative_area_level_1
+          - long_name: Vietnam
+            short_name: VN
+            types:
+            - country
+          formatted_address: 271 Nguyen Van Linh, Vinh Trung, Thanh Khe, Da Nang, Vietnam
+          geometry:
+            location:
+              lat: 16.0598925
+              lng: 108.2115959
+            viewport:
+              northeast:
+                lat: 16.0643840764206
+                lng: 108.21626988795599
+              southwest:
+                lat: 16.055400923579402
+                lng: 108.20692191204402
+          name: 271 Nguyen Van Linh
+        status: OK
+  - action: action_ask_confirm_info
+  - intent: affirm
+  - action: action_submit_book_ride_form_to_get_quotes
+  - slot_was_set:
+    - quotes:
+      - quoteId: d07a3e1f-fc75-4ff4-9e6f-6b9f00cb5299
+        expiresAt: '2024-09-23T09:35:34.891Z'
+        vehicleType: MOTE
+        price:
+          value: 17.26
+          currency: CAD
+        luggage: 0
+        passengers: 0
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: add890f5-5c20-47a0-a0f9-896746df7202
+        expiresAt: '2024-09-23T09:35:34.891Z'
+        vehicleType: NewRegular
+        price:
+          value: 17.26
+          currency: CAD
+        luggage: 0
+        passengers: 5
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: 95e1c877-e917-4c4f-bcb9-65e486054448
+        expiresAt: '2024-09-23T09:35:34.891Z'
+        vehicleType: Cargo +2 (20m3)
+        price:
+          value: 43.25
+          currency: CAD
+        luggage: 6
+        passengers: 7
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: 01def398-71dc-4197-9f0e-19b476ebe4a1
+        expiresAt: '2024-09-23T09:35:34.892Z'
+        vehicleType: Honda SH 135
+        price:
+          value: 43.25
+          currency: CAD
+        luggage: 1
+        passengers: 2
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: 196058bb-7dc6-474e-a426-bba035d86a5f
+        expiresAt: '2024-09-23T09:35:34.892Z'
+        vehicleType: Sans véhicule
+        price:
+          value: 46.25
+          currency: CAD
+        luggage: 5
+        passengers: 5
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+      - quoteId: f7b452a1-ae10-4001-9d81-7fa980367921
+        expiresAt: '2024-09-23T09:35:34.892Z'
+        vehicleType: Electric- كهرباء
+        price:
+          value: 23.88
+          currency: CAD
+        luggage: 5
+        passengers: 5
+        servicesAvailable: []
+        provider:
+          name: YELLOW
+          phone: +44 7499 123001
+  - action: action_display_select_quotes
+  - intent: choose_quote
+    entities:
+    - quoteId: 196058bb-7dc6-474e-a426-bba035d86a5f
+  - slot_was_set:
+    - quoteId: 196058bb-7dc6-474e-a426-bba035d86a5f
+  - action: action_perform_booking_ride

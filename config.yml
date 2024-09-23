@@ -24,7 +24,6 @@ pipeline:
   url: http://localhost:8000
   dimensions:
   - email
-  - amount-of-money
   - time
   - phone-number
   timezone: "Asia/Ho_Chi_Minh"
